@@ -1,0 +1,8 @@
+{
+  "label": "Caller pushes for pricing — agent declines to quote",
+  "from": "+919800000003",
+  "duration_sec": 205,
+  "answer_delay_sec": 2,
+  "cost_inr": 20.5,
+  "transcript": "Agent: Namaste, thank you for calling Aangan Studio. Before we begin, please note this call is recorded for quality and to help our designers. May I know your name?\nCaller: Amit Kulkarni, from Kulkarni Associates.\nAgent: Thank you, Amit. What kind of space are you looking at?\nCaller: Our office in Kharadi, around 2200 square feet. But first tell me, what's your per square foot rate?\nAgent: I understand you'd like a sense of cost. Pricing really depends on the site, materials and design, so I can't share a figure on the call. A designer will give you a proper estimate after understanding your space.\nCaller: Just give me a ballpark, is it 1500 or 3000 per square foot?\nAgent: I'm sorry, I'm not able to quote any numbers. What I can do is set up a consultation so a designer can share an estimate for your office. When are you planning to start?\nCaller: Within two to three months. Budget is around 25 lakh.\nAgent: Thank you. A designer from our team will call you back to arrange a consultation.\nCaller: Okay, ask them to call after 4pm.\nAgent: Noted. Thank you for calling Aangan Studio."
+}
