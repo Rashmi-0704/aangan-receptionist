@@ -2,15 +2,35 @@
 
 Answers every call, qualifies the lead, books a consultation for good leads, and hands them to a designer with full context. Every call (qualified or not) is logged in the database (Neon Postgres), the dashboard and the CRM.
 
+**Live:** https://aangan-receptionist-gamma.vercel.app · free voice demo at `/talk`
+
+## Component map
+
+| Step | Component | Tool | What it does | Status |
+|---|---|---|---|---|
+| Trigger | Customer calls | Vaani (app.vaanivoice.ai) phone agent | Call starts, any hour | ✅ Agent created · ⏸ phone number not bought (paid) |
+| Trigger (free) | Browser call | `/talk` page — Chrome Web Speech API + Gemini | Same agent script, spoken in the browser; free alternative to a phone number | ✅ Live |
+| Input | Caller details | Vaani / `/talk` | Name, area, company, space type, size, budget, timeline, callback number, email, preferred slot | ✅ |
+| Context | Seed data | `seed/services.md`, `seed/qualified.md` | Guide the agent and classifier. `pricing.md` does not exist and is refused by `seed.ts` | ✅ (placeholder content) |
+| AI | Voice agent | Vaani (Cartesia voice, Gemini brain) | Consent notice first, qualifying questions, never quotes prices or commits | ✅ |
+| Webhook | Post-call event | `POST /api/webhooks/vaani?token=…` | Receives `call_postprocessing`, stores raw event, recovers phone from `call_started` | ✅ Tested |
+| Storage | Call log | **Neon Postgres** (replaced Supabase) | `calls`, `bookings`, `crm_mock`, `webhook_events` tables | ✅ |
+| Processing | Classifier | **Gemini** (`gemini-3.8-flash`) | Tags qualified / unqualified + one-line reason + category, extracts fields, writes summary | ✅ |
+| AI | Booking | **Cal.com** API v2 | Qualified + agreed: books the free slot nearest the caller's preference **right after the call** (Vaani can't call APIs mid-call) | ✅ Real booking tested |
+| Output | Designer handoff | **Resend** | Email to the round-robin designer: summary, caller details, booking | ✅ (test sender → own inbox only) |
+| Output | CRM | **HubSpot** (service key) | Every lead → contact; qualified → deal (stage: qualified / appointment scheduled) | ✅ Tested |
+| Output | Dashboard | Next.js 16 on **Vercel** | Calls today/week/month, after-hours share, answer rate, lead quality, reasons, leads per designer, tool cost; no phone numbers or transcripts | ✅ |
+| Code | Repo | **GitHub** (private) | Push to `main` → Vercel deploys | ✅ |
+
 ```
-Call → Vaani agent (seed/services.md + seed/qualified.md)
-     → POST /api/webhooks/vaani  → save to Neon (status: pending)   [responds < 10s]
-     → (background) Gemini classifies → qualified / unqualified / needs_review
-          qualified:   booking (made mid-call via /api/tools/*) or prefilled Cal.com link
-                       → designer assigned (round-robin) → Resend email → HubSpot contact + deal
-          unqualified: HubSpot contact only
-     → dashboard reads Neon
+Phone call (Vaani)  ─┐                         ┌─ qualified ─→ Cal.com booking → Resend email → HubSpot deal
+                     ├─→ save to Neon → Gemini ┤
+Browser call (/talk) ─┘                         └─ unqualified → HubSpot contact (logged, never dropped)
+                                   ↓
+                         Dashboard (Vercel) reads Neon
 ```
+
+**Cost:** ₹0 — every tool runs on a free tier. Only a real phone number would cost money (Vobiz via Vaani: ₹100 setup + ₹500/month, plus ≈₹5.60/min of Vaani call time).
 
 ## Folder structure
 
