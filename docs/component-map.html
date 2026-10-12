@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Aangan Studio — AI Receptionist · Component Map</title>
+<style>
+  :root {
+    --bg: #faf7f2; --ink: #2a2520; --ink2: #5b5249; --muted: #8a8075; --line: #d9cfc2;
+    --card: #ffffff; --accent: #8a6a45;
+    --t-trigger: #8a6a45; --t-ai: #6b5b95; --t-store: #3f6e8c; --t-out: #4f7a58; --t-ctx: #a87a1f; --t-warn: #b05f43;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 "Segoe UI", system-ui, sans-serif; }
+  .page { width: 1800px; padding: 44px 52px 40px; }
+  header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--line); padding-bottom: 18px; margin-bottom: 26px; }
+  h1 { font-family: Georgia, "Times New Roman", serif; font-weight: 500; font-size: 38px; margin: 0; letter-spacing: 0.2px; }
+  .sub { color: var(--ink2); font-size: 16px; margin-top: 4px; }
+  .meta { text-align: right; color: var(--muted); font-size: 13px; }
+  .meta b { color: var(--ink); font-weight: 600; }
+
+  .flow { display: grid; grid-template-columns: 230px 30px 240px 30px 210px 30px 210px 30px minmax(0, 1fr); align-items: center; }
+  .col { display: flex; flex-direction: column; gap: 14px; }
+  .arrow { text-align: center; color: var(--accent); font-size: 26px; font-weight: 300; }
+
+  .box { background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--c); border-radius: 12px; padding: 12px 14px; box-shadow: 0 1px 2px rgba(40,30,20,.05); }
+  .box .step { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--c); font-weight: 700; }
+  .box .name { font-size: 16px; font-weight: 650; margin: 2px 0 1px; }
+  .box .tool { font-size: 13px; color: var(--ink2); }
+  .box .what { font-size: 12.5px; color: var(--muted); margin-top: 5px; }
+  .tag { display: inline-block; margin-top: 7px; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: #eaf2ec; color: #3e6a48; }
+  .tag.paid { background: #f7e7e1; color: var(--t-warn); }
+  .tag.ph { background: #f6efdc; color: #8a6418; }
+
+  .branch { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 10px 12px; align-items: center; }
+  .branch .label { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; text-align: right; }
+  .branch .label.q { color: var(--t-out); } .branch .label.u { color: var(--t-warn); }
+  .chain { display: flex; align-items: center; gap: 8px; }
+  .chain .box { flex: 1; min-width: 0; }
+  .chain .mini { color: var(--accent); font-size: 20px; }
+
+  .bottom { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-top: 26px; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  .panel h3 { margin: 0 0 8px; font-family: Georgia, serif; font-weight: 500; font-size: 19px; }
+  .panel ul { margin: 0; padding-left: 18px; color: var(--ink2); font-size: 13px; }
+  .panel li { margin: 3px 0; }
+  .dash { margin-top: 20px; }
+  .legend { display: flex; gap: 18px; margin-top: 18px; color: var(--muted); font-size: 12px; align-items: center; flex-wrap: wrap; }
+  .legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px; background: var(--c); margin-right: 6px; vertical-align: -1px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <h1>Aangan Studio — AI Receptionist</h1>
+      <div class="sub">Component map · answers every enquiry, qualifies the lead, books a consultation and hands it to a designer</div>
+    </div>
+    <div class="meta">Live: <b>aangan-receptionist-gamma.vercel.app</b><br>Running cost: <b>₹0</b> (all free tiers)</div>
+  </header>
+
+  <div class="flow">
+    <!-- 1. Trigger -->
+    <div class="col">
+      <div class="box" style="--c: var(--t-trigger)">
+        <div class="step">Trigger</div>
+        <div class="name">Phone call</div>
+        <div class="tool">Vaani phone agent</div>
+        <div class="what">Any hour · consent notice first</div>
+        <span class="tag paid">Number not bought (paid)</span>
+      </div>
+      <div class="box" style="--c: var(--t-trigger)">
+        <div class="step">Trigger · free</div>
+        <div class="name">Browser call</div>
+        <div class="tool">/talk · Chrome speech + Gemini</div>
+        <div class="what">Same script, spoken in the browser</div>
+        <span class="tag">Live</span>
+      </div>
+      <div class="box" style="--c: var(--t-ctx)">
+        <div class="step">Context</div>
+        <div class="name">Seed data</div>
+        <div class="tool">services.md · qualified.md</div>
+        <div class="what">No pricing.md — never quotes prices</div>
+        <span class="tag ph">Placeholder content</span>
+      </div>
+    </div>
+    <div class="arrow">→</div>
+
+    <!-- 2. Voice AI -->
+    <div class="col">
+      <div class="box" style="--c: var(--t-ai)">
+        <div class="step">AI · Voice agent</div>
+        <div class="name">Receptionist</div>
+        <div class="tool">Vaani (Cartesia voice) / Gemini</div>
+        <div class="what">Asks name, area, space, size, budget, timeline, callback number, email, preferred slot. No prices, no commitments.</div>
+        <span class="tag">Built</span>
+      </div>
+      <div class="box" style="--c: var(--t-ai)">
+        <div class="step">Webhook</div>
+        <div class="name">Post-call event</div>
+        <div class="tool">/api/webhooks/vaani?token=…</div>
+        <div class="what">call_postprocessing → transcript</div>
+        <span class="tag">Tested</span>
+      </div>
+    </div>
+    <div class="arrow">→</div>
+
+    <!-- 3. Storage -->
+    <div class="col">
+      <div class="box" style="--c: var(--t-store)">
+        <div class="step">Storage</div>
+        <div class="name">Call log</div>
+        <div class="tool">Neon Postgres</div>
+        <div class="what">calls · bookings · crm_mock · webhook_events. Saved first — nothing is dropped.</div>
+        <span class="tag">Live</span>
+      </div>
+    </div>
+    <div class="arrow">→</div>
+
+    <!-- 4. Classifier -->
+    <div class="col">
+      <div class="box" style="--c: var(--t-ai)">
+        <div class="step">Processing</div>
+        <div class="name">Classifier</div>
+        <div class="tool">Gemini 3.8 Flash</div>
+        <div class="what">Qualified / unqualified + one-line reason, extracts fields, writes designer summary</div>
+        <span class="tag">Live</span>
+      </div>
+    </div>
+    <div class="arrow">→</div>
+
+    <!-- 5. Outputs -->
+    <div class="branch">
+      <div class="label q">Qualified</div>
+      <div class="chain">
+        <div class="box" style="--c: var(--t-out)">
+          <div class="step">Booking</div>
+          <div class="name">Cal.com</div>
+          <div class="what">Nearest free slot, right after the call</div>
+        </div>
+        <span class="mini">→</span>
+        <div class="box" style="--c: var(--t-out)">
+          <div class="step">Handoff</div>
+          <div class="name">Resend</div>
+          <div class="what">Email to round-robin designer</div>
+        </div>
+        <span class="mini">→</span>
+        <div class="box" style="--c: var(--t-out)">
+          <div class="step">CRM</div>
+          <div class="name">HubSpot</div>
+          <div class="what">Contact + deal</div>
+        </div>
+      </div>
+      <div class="label u">Unqualified</div>
+      <div class="chain">
+        <div class="box" style="--c: var(--t-warn)">
+          <div class="step">CRM</div>
+          <div class="name">HubSpot contact</div>
+          <div class="what">Logged with reason — never silently discarded</div>
+        </div>
+      </div>
+      <div></div>
+      <div class="box dash" style="--c: var(--t-store)">
+        <div class="step">Output · every call</div>
+        <div class="name">Dashboard — Next.js on Vercel</div>
+        <div class="what">Calls today / week / month · after-hours share · answered ≤ 5 min · lead quality · disqualification reasons · leads per designer · tool cost per call and per qualified lead. Phone numbers and transcripts hidden.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="panel">
+      <h3>Hard rules</h3>
+      <ul>
+        <li>Never quotes prices — pricing.md is never loaded</li>
+        <li>No commitments, no complaint handling → callback</li>
+        <li>Every call starts with a recording-consent notice</li>
+        <li>Unqualified leads always logged (DB, dashboard, HubSpot)</li>
+        <li>No API keys in code — environment variables only</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Stack</h3>
+      <ul>
+        <li>Next.js 16 (App Router) · Vercel · GitHub (push to main deploys)</li>
+        <li>Neon Postgres · Gemini 3.8 Flash</li>
+        <li>Vaani voice agent · Cal.com API v2 · Resend · HubSpot</li>
+        <li>Mock adapters when a key is missing — switch via .env only</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Cost</h3>
+      <ul>
+        <li>Today: ₹0 — every tool on a free tier</li>
+        <li>Browser calls (/talk): free</li>
+        <li>Production phone line (Vobiz via Vaani): ₹100 setup + ₹500/month</li>
+        <li>Vaani call time: ≈ ₹5.60 per minute</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span style="--c: var(--t-trigger)">Trigger</span>
+    <span style="--c: var(--t-ctx)">Context</span>
+    <span style="--c: var(--t-ai)">AI / processing</span>
+    <span style="--c: var(--t-store)">Storage &amp; dashboard</span>
+    <span style="--c: var(--t-out)">Qualified outputs</span>
+    <span style="--c: var(--t-warn)">Unqualified path</span>
+  </div>
+</div>
+</body>
+</html>
